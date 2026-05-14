@@ -82,7 +82,9 @@ function App() {
         position,
         experience_years: Number(experienceYears || 0),
         work_type: workType,
-        salary_amount: Number(salaryAmount),
+        salary_amount: Number(
+        salaryAmount.replace(/\./g, "").replace(",", ".")
+        ),
         salary_period: salaryPeriod,
         salary_type: salaryType,
         currency,
