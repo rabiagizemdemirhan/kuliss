@@ -316,7 +316,7 @@ function App() {
 
             <p style={styles.muted}>
               Kuliss kullanıcılarından ad, soyad, TC kimlik numarası, e-posta
-              adresi veya doğrudan kişisel veri talep etmez.
+              adresi veya doğrudan kişisel veri talep etmez. Yürürülülükteki KVKK kapsamında gizliliğe önem verir ve platformda paylaşılan içeriklerin anonim kalmasını hedefler.
             </p>
 
             <br />
@@ -324,7 +324,7 @@ function App() {
             <p style={styles.muted}>
               Platform üzerinde paylaşılan maaş, şirket, pozisyon, şehir,
               yan haklar ve çalışma deneyimi içerikleri anonim şekilde
-              yayınlanır.
+              yayınlanır. Platformda yer alan maaş ve şirket bilgileri kullanıcı beyanına dayalıdır. Kuliss, paylaşılan bilgilerin doğruluğunu garanti etmez.
             </p>
 
             <br />
@@ -332,7 +332,7 @@ function App() {
             <p style={styles.muted}>
               Paylaşılan veriler; topluluk deneyimi oluşturmak, şirket
               şeffaflığı sağlamak ve kullanıcıların iş başvurusu öncesinde
-              fikir edinmesini kolaylaştırmak amacıyla kullanılır.
+              fikir edinmesini kolaylaştırmak amacıyla kullanılır. Hakaret, iftira, kişisel veri paylaşımı, nefret söylemi veya hukuka aykırı içerikler platformdan kaldırılabilir. Gerekli görüldüğü durumlarda içerikleri moderasyon kapsamında inceleme ve kaldırma hakkını saklı tutar.
             </p>
 
             <br />
@@ -340,14 +340,18 @@ function App() {
             <p style={styles.muted}>
               Kuliss, kullanıcıların kimliğini ortaya çıkarabilecek bilgileri
               bilinçli olarak toplamaz. Kullanıcıların yorum alanına kendilerini
-              veya başka kişileri açıkça tanımlayan bilgiler yazmaması önerilir.
+              veya başka kişileri açıkça tanımlayan bilgiler yazmaması önerilir. Kullanıcı deneyimini geliştirmek amacıyla anonim trafik verileri, çerezler (cookies) ve temel kullanım istatistikleri toplanabilir. Platformu kullanan herkes, bu gizlilik ve kullanım koşullarını kabul etmiş sayılır. Kullanıcılar, üçüncü kişilere ait kişisel verileri açık rıza olmadan paylaşmayı kabul eder.
             </p>
 
             <br />
 
             <p style={styles.muted}>
               Kullanıcılar tarafından paylaşılan içeriklerden doğabilecek
-              hukuki sorumluluk, paylaşımı yapan kullanıcıya aittir.
+              hukuki sorumluluk, paylaşımı yapan kullanıcıya aittir. Yasal merciler tarafından usulüne uygun resmi talep gelmesi halinde, ilgili içerikler mevzuat kapsamında değerlendirilebilir.
+            </p>
+
+            <p style={styles.muted}>
+            Kuliss hiçbir şekilde resmi maaş doğrulama veya işe alım platformu değildir; paylaşımlar tamamen topluluk deneyimine dayalıdır.
             </p>
           </section>
         )}
