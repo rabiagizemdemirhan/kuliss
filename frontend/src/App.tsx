@@ -220,14 +220,17 @@ const styles: Record<string, React.CSSProperties> = {
     gap: "20px"
   },
 
-  navBtn: {
-    background: "transparent",
-    border: "none",
-    color: "white",
-    fontWeight: 700,
-    cursor: "pointer",
-    fontSize: "15px"
-  },
+    navBtn: {
+      background: "white",
+      border: "none",
+      color: "#5c0017",
+      fontWeight: 800,
+      cursor: "pointer",
+      fontSize: "15px",
+      padding: "10px 16px",
+      borderRadius: "12px"
+    },
+
 
   main: {
     width: "100%",
