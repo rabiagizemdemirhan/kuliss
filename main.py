@@ -419,8 +419,3 @@ def get_salary_reports(
         .order_by(models.SalaryReport.created_at.desc())
         .all()
     )
-@app.delete("/admin/reset")
-def reset_reports(db: Session = Depends(get_db)):
-    db.query(models.SalaryReport).delete()
-    db.commit()
-    return {"message": "Tüm test verileri silindi."}
