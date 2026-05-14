@@ -349,7 +349,8 @@ function App() {
               Kullanıcılar tarafından paylaşılan içeriklerden doğabilecek
               hukuki sorumluluk, paylaşımı yapan kullanıcıya aittir. Yasal merciler tarafından usulüne uygun resmi talep gelmesi halinde, ilgili içerikler mevzuat kapsamında değerlendirilebilir.
             </p>
-
+            <br />
+            
             <p style={styles.muted}>
             Kuliss hiçbir şekilde resmi maaş doğrulama veya işe alım platformu değildir; paylaşımlar tamamen topluluk deneyimine dayalıdır.
             </p>
