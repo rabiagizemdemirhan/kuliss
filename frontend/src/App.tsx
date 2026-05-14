@@ -14,35 +14,8 @@ function App() {
   const [page, setPage] = useState<"home" | "share" | "search">("home");
   const [search, setSearch] = useState("");
 
-  const reports: SalaryReport[] = [
-    {
-      company: "Trendyol",
-      position: "Senior Backend Developer",
-      salary: "95.000₺",
-      city: "İstanbul",
-      workType: "Hibrit",
-      experience: "4 yıl",
-      benefits: "Yemek kartı, özel sağlık"
-    },
-    {
-      company: "Getir",
-      position: "Data Analyst",
-      salary: "72.000₺",
-      city: "İstanbul",
-      workType: "Remote",
-      experience: "2 yıl",
-      benefits: "Bonus, esnek çalışma"
-    },
-    {
-      company: "Inditex",
-      position: "Sales Assistant",
-      salary: "32.000₺",
-      city: "İstanbul",
-      workType: "Ofis",
-      experience: "1 yıl",
-      benefits: "Yemek, prim"
-    }
-  ];
+  // Şimdilik boş veri
+  const reports: SalaryReport[] = [];
 
   const filteredReports = reports.filter((item) =>
     item.company.toLowerCase().includes(search.toLowerCase())
@@ -52,13 +25,14 @@ function App() {
     <div style={styles.page}>
       <nav style={styles.nav}>
         <button style={styles.logo} onClick={() => setPage("home")}>
-          kuli<em>ss</em>
+          kuliss
         </button>
 
         <div style={styles.navLinks}>
           <button style={styles.navBtn} onClick={() => setPage("search")}>
             şirket ara
           </button>
+
           <button style={styles.navBtn} onClick={() => setPage("share")}>
             maaş paylaş
           </button>
@@ -74,19 +48,26 @@ function App() {
               <h1 style={styles.title}>
                 vitrini değil,
                 <br />
-                <em>içini</em> gösterir.
+                içini gösterir.
               </h1>
 
               <p style={styles.subtitle}>
-                Türkiye'deki şirketlerin gerçek maaşları, çalışma kültürü ve
-                perde arkası.
+                Türkiye'deki şirketlerin gerçek maaşları,
+                çalışma kültürü ve perde arkası.
               </p>
 
               <div style={styles.buttonRow}>
-                <button style={styles.primaryBtn} onClick={() => setPage("share")}>
+                <button
+                  style={styles.primaryBtn}
+                  onClick={() => setPage("share")}
+                >
                   maaş paylaş
                 </button>
-                <button style={styles.secondaryBtn} onClick={() => setPage("search")}>
+
+                <button
+                  style={styles.secondaryBtn}
+                  onClick={() => setPage("search")}
+                >
                   şirket ara
                 </button>
               </div>
@@ -99,11 +80,14 @@ function App() {
         {page === "search" && (
           <section style={styles.card}>
             <h2>şirket ara</h2>
-            <p style={styles.muted}>Bir yere girmeden önce gerçeği öğren.</p>
+
+            <p style={styles.muted}>
+              Bir yere girmeden önce gerçeği öğren.
+            </p>
 
             <input
               style={styles.input}
-              placeholder="Şirket adı yaz: Trendyol, Getir, Inditex..."
+              placeholder="Şirket adı yaz..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -115,14 +99,22 @@ function App() {
         {page === "share" && (
           <section style={styles.card}>
             <h2>maaş bilgisi ekle</h2>
-            <p style={styles.muted}>Tüm veriler anonimdir.</p>
+
+            <p style={styles.muted}>
+              Tüm veriler anonimdir.
+            </p>
 
             <div style={styles.formGrid}>
               <input style={styles.input} placeholder="Şirket adı" />
+
               <input style={styles.input} placeholder="Sektör" />
+
               <input style={styles.input} placeholder="Şehir" />
+
               <input style={styles.input} placeholder="Pozisyon" />
+
               <input style={styles.input} placeholder="Deneyim yılı" />
+
               <input style={styles.input} placeholder="Maaş miktarı" />
 
               <select style={styles.input}>
@@ -137,12 +129,12 @@ function App() {
               </select>
             </div>
 
-            <textarea style={styles.textarea} placeholder="Yan haklar / yorum" />
+            <textarea
+              style={styles.textarea}
+              placeholder="Yan haklar / yorum"
+            />
 
-            <button
-              style={styles.primaryBtnFull}
-              onClick={() => alert("Frontend form hazır. Sırada backend bağlantısı var.")}
-            >
+            <button style={styles.primaryBtnFull}>
               anonim olarak gönder
             </button>
           </section>
@@ -153,28 +145,44 @@ function App() {
 }
 
 function SalaryList({ reports }: { reports: SalaryReport[] }) {
-  if (reports.length === 0) {
-    return <p style={styles.muted}>Sonuç bulunamadı.</p>;
-  }
-
   return (
     <section style={styles.salaryBox}>
       <h2>son paylaşılan maaşlar</h2>
 
-      {reports.map((item) => (
-        <div key={item.company + item.position} style={styles.salaryCard}>
-          <div>
-            <h3 style={styles.position}>{item.position}</h3>
-            <p style={styles.company}>{item.company}</p>
-            <p style={styles.muted}>
-              {item.city} • {item.workType} • {item.experience}
-            </p>
-            <p style={styles.benefits}>{item.benefits}</p>
-          </div>
+      {reports.length === 0 ? (
+        <p style={styles.emptyText}>
+          Henüz maaş paylaşımı yok.
+        </p>
+      ) : (
+        reports.map((item) => (
+          <div
+            key={item.company + item.position}
+            style={styles.salaryCard}
+          >
+            <div>
+              <h3 style={styles.position}>
+                {item.position}
+              </h3>
 
-          <div style={styles.salaryPill}>{item.salary}</div>
-        </div>
-      ))}
+              <p style={styles.company}>
+                {item.company}
+              </p>
+
+              <p style={styles.muted}>
+                {item.city} • {item.workType} • {item.experience}
+              </p>
+
+              <p style={styles.benefits}>
+                {item.benefits}
+              </p>
+            </div>
+
+            <div style={styles.salaryPill}>
+              {item.salary}
+            </div>
+          </div>
+        ))
+      )}
     </section>
   );
 }
@@ -183,46 +191,56 @@ const styles: Record<string, React.CSSProperties> = {
   page: {
     minHeight: "100vh",
     background:
-      "repeating-linear-gradient(90deg, #e8112d 0px, #e8112d 48px, #f48fb1 48px, #f48fb1 96px)",
-    color: "#2c0a1e",
-    fontFamily: "Arial, sans-serif"
+      "repeating-linear-gradient(90deg, #ff0033 0px, #ff0033 44px, #ff8db2 44px, #ff8db2 88px)",
+    fontFamily: "Arial, sans-serif",
+    color: "#2c0a1e"
   },
+
   nav: {
-    background: "#e8112d",
-    borderBottom: "3px solid #6b0f2a",
-    padding: "18px 40px",
+    width: "100%",
+    background: "#ff0033",
+    borderBottom: "3px solid #5c0017",
+    padding: "20px 40px",
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center"
   },
+
   logo: {
     background: "transparent",
     border: "none",
     color: "white",
-    fontSize: "28px",
-    fontWeight: 800,
+    fontSize: "32px",
+    fontWeight: 900,
     cursor: "pointer"
   },
+
   navLinks: {
     display: "flex",
-    gap: "18px"
+    gap: "20px"
   },
+
   navBtn: {
     background: "transparent",
     border: "none",
     color: "white",
     fontWeight: 700,
-    cursor: "pointer"
+    cursor: "pointer",
+    fontSize: "15px"
   },
+
   main: {
-    maxWidth: "1000px",
+    width: "100%",
+    maxWidth: "1100px",
     margin: "0 auto",
-    padding: "60px 24px"
+    padding: "60px 20px"
   },
+
   hero: {
     textAlign: "center",
-    marginBottom: "60px"
+    marginBottom: "50px"
   },
+
   badge: {
     display: "inline-block",
     background: "#1a1a5e",
@@ -233,88 +251,103 @@ const styles: Record<string, React.CSSProperties> = {
     fontWeight: 700,
     marginBottom: "20px"
   },
+
   title: {
-    fontSize: "68px",
+    fontSize: "72px",
     lineHeight: 1,
+    color: "white",
     margin: "0 0 20px",
-    color: "white",
-    textShadow: "4px 4px 0 #6b0f2a"
+    textShadow: "5px 5px 0 #5c0017"
   },
+
   subtitle: {
-    color: "white",
-    maxWidth: "560px",
+    maxWidth: "620px",
     margin: "0 auto",
+    color: "white",
     fontSize: "18px",
-    lineHeight: 1.6
+    lineHeight: 1.7
   },
+
   buttonRow: {
     display: "flex",
     justifyContent: "center",
     gap: "14px",
-    marginTop: "30px"
+    marginTop: "30px",
+    flexWrap: "wrap"
   },
+
   primaryBtn: {
     background: "#1a1a5e",
     color: "white",
     border: "none",
-    padding: "14px 26px",
+    padding: "14px 28px",
     borderRadius: "14px",
     fontWeight: 800,
     cursor: "pointer",
-    boxShadow: "4px 4px 0 #6b0f2a"
+    fontSize: "15px"
   },
+
   secondaryBtn: {
     background: "white",
-    color: "#6b0f2a",
+    color: "#5c0017",
     border: "none",
-    padding: "14px 26px",
+    padding: "14px 28px",
     borderRadius: "14px",
     fontWeight: 800,
     cursor: "pointer",
-    boxShadow: "4px 4px 0 #1a1a5e"
+    fontSize: "15px"
   },
+
   card: {
-    background: "white",
-    border: "2px solid #6b0f2a",
-    borderRadius: "24px",
-    padding: "32px",
-    boxShadow: "8px 8px 0 #e8112d"
+    background: "#f6f0f2",
+    border: "2px solid #5c0017",
+    borderRadius: "28px",
+    padding: "34px",
+    boxShadow: "10px 10px 0 #ff0033"
   },
+
   salaryBox: {
-    background: "white",
-    border: "2px solid #6b0f2a",
-    borderRadius: "24px",
+    marginTop: "30px",
+    background: "#f6f0f2",
+    border: "2px solid #5c0017",
+    borderRadius: "28px",
     padding: "30px",
-    boxShadow: "8px 8px 0 #e8112d"
+    boxShadow: "10px 10px 0 #ff0033"
   },
+
   salaryCard: {
-    background: "#fff0f5",
-    border: "2px solid #f48fb1",
+    background: "#ffe5ef",
+    border: "2px solid #ff8db2",
     borderRadius: "18px",
     padding: "22px",
-    marginTop: "14px",
+    marginTop: "16px",
     display: "flex",
     justifyContent: "space-between",
-    gap: "20px",
     alignItems: "center",
+    gap: "20px",
     flexWrap: "wrap"
   },
+
   position: {
     margin: "0 0 6px",
-    fontSize: "22px"
+    fontSize: "24px"
   },
+
   company: {
     margin: "0 0 6px",
-    color: "#6b0f2a",
+    color: "#5c0017",
     fontWeight: 800
   },
+
   muted: {
     color: "#8b3a5a"
   },
+
   benefits: {
     marginTop: "8px",
-    color: "#6b0f2a"
+    color: "#5c0017"
   },
+
   salaryPill: {
     background: "#1a1a5e",
     color: "white",
@@ -323,29 +356,38 @@ const styles: Record<string, React.CSSProperties> = {
     fontWeight: 800,
     fontSize: "20px"
   },
+
+  emptyText: {
+    marginTop: "20px",
+    color: "#8b3a5a"
+  },
+
   input: {
-    padding: "14px",
-    borderRadius: "12px",
-    border: "2px solid #f48fb1",
-    fontSize: "15px",
     width: "100%",
+    padding: "14px",
+    borderRadius: "14px",
+    border: "2px solid #ff8db2",
+    fontSize: "15px",
     boxSizing: "border-box"
   },
+
   formGrid: {
     display: "grid",
     gridTemplateColumns: "1fr 1fr",
     gap: "14px",
     marginTop: "20px"
   },
+
   textarea: {
     width: "100%",
-    minHeight: "100px",
+    minHeight: "120px",
     marginTop: "14px",
     padding: "14px",
-    borderRadius: "12px",
-    border: "2px solid #f48fb1",
+    borderRadius: "14px",
+    border: "2px solid #ff8db2",
     boxSizing: "border-box"
   },
+
   primaryBtnFull: {
     width: "100%",
     marginTop: "18px",
@@ -355,7 +397,8 @@ const styles: Record<string, React.CSSProperties> = {
     padding: "16px",
     borderRadius: "14px",
     fontWeight: 800,
-    cursor: "pointer"
+    cursor: "pointer",
+    fontSize: "15px"
   }
 };
 
