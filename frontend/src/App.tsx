@@ -1,24 +1,69 @@
 import { useState } from "react";
+import axios from "axios";
 
 type SalaryReport = {
-  company: string;
+  company_name: string;
   position: string;
-  salary: string;
+  salary_amount: number;
   city: string;
-  workType: string;
-  experience: string;
-  benefits: string;
 };
 
 function App() {
   const [page, setPage] = useState<"home" | "share" | "search">("home");
+
+  const [companyName, setCompanyName] = useState("");
+  const [position, setPosition] = useState("");
+  const [salary, setSalary] = useState("");
+  const [city, setCity] = useState("");
+
+  const [message, setMessage] = useState("");
   const [search, setSearch] = useState("");
 
-  // Şimdilik boş veri
-  const reports: SalaryReport[] = [];
+  const [reports, setReports] = useState<SalaryReport[]>([]);
+
+  const API_URL = "https://kuliss-p7lr.onrender.com";
+
+  const submitSalary = async () => {
+    try {
+      await axios.post(`${API_URL}/salary-reports`, {
+        company_name: companyName,
+        sector: "Teknoloji",
+        city: city,
+        position: position,
+        experience_years: 1,
+        work_type: "Hibrit",
+        salary_amount: Number(salary),
+        salary_period: "Aylık",
+        salary_type: "Net",
+        currency: "TRY",
+        benefits: "Yemek kartı",
+        comment: "Kuliss kullanıcı paylaşımı"
+      });
+
+      setReports([
+        {
+          company_name: companyName,
+          position,
+          salary_amount: Number(salary),
+          city
+        },
+        ...reports
+      ]);
+
+      setMessage("Maaş başarıyla paylaşıldı.");
+
+      setCompanyName("");
+      setPosition("");
+      setSalary("");
+      setCity("");
+    } catch (error) {
+      console.error(error);
+      setMessage("Bir hata oluştu.");
+    }
+  };
 
   const filteredReports = reports.filter((item) =>
-    item.company.toLowerCase().includes(search.toLowerCase())
+    item.company_name.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
@@ -105,38 +150,47 @@ function App() {
             </p>
 
             <div style={styles.formGrid}>
-              <input style={styles.input} placeholder="Şirket adı" />
+              <input
+                style={styles.input}
+                placeholder="Şirket adı"
+                value={companyName}
+                onChange={(e) => setCompanyName(e.target.value)}
+              />
 
-              <input style={styles.input} placeholder="Sektör" />
+              <input
+                style={styles.input}
+                placeholder="Pozisyon"
+                value={position}
+                onChange={(e) => setPosition(e.target.value)}
+              />
 
-              <input style={styles.input} placeholder="Şehir" />
+              <input
+                style={styles.input}
+                placeholder="Şehir"
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+              />
 
-              <input style={styles.input} placeholder="Pozisyon" />
-
-              <input style={styles.input} placeholder="Deneyim yılı" />
-
-              <input style={styles.input} placeholder="Maaş miktarı" />
-
-              <select style={styles.input}>
-                <option>Aylık</option>
-                <option>Yıllık</option>
-                <option>Saatlik</option>
-              </select>
-
-              <select style={styles.input}>
-                <option>Net</option>
-                <option>Brüt</option>
-              </select>
+              <input
+                style={styles.input}
+                placeholder="Maaş miktarı"
+                value={salary}
+                onChange={(e) => setSalary(e.target.value)}
+              />
             </div>
 
-            <textarea
-              style={styles.textarea}
-              placeholder="Yan haklar / yorum"
-            />
-
-            <button style={styles.primaryBtnFull}>
+            <button
+              style={styles.primaryBtnFull}
+              onClick={submitSalary}
+            >
               anonim olarak gönder
             </button>
+
+            {message && (
+              <p style={styles.successText}>
+                {message}
+              </p>
+            )}
           </section>
         )}
       </main>
@@ -144,7 +198,11 @@ function App() {
   );
 }
 
-function SalaryList({ reports }: { reports: SalaryReport[] }) {
+function SalaryList({
+  reports
+}: {
+  reports: SalaryReport[];
+}) {
   return (
     <section style={styles.salaryBox}>
       <h2>son paylaşılan maaşlar</h2>
@@ -154,9 +212,9 @@ function SalaryList({ reports }: { reports: SalaryReport[] }) {
           Henüz maaş paylaşımı yok.
         </p>
       ) : (
-        reports.map((item) => (
+        reports.map((item, index) => (
           <div
-            key={item.company + item.position}
+            key={index}
             style={styles.salaryCard}
           >
             <div>
@@ -165,20 +223,16 @@ function SalaryList({ reports }: { reports: SalaryReport[] }) {
               </h3>
 
               <p style={styles.company}>
-                {item.company}
+                {item.company_name}
               </p>
 
               <p style={styles.muted}>
-                {item.city} • {item.workType} • {item.experience}
-              </p>
-
-              <p style={styles.benefits}>
-                {item.benefits}
+                {item.city}
               </p>
             </div>
 
             <div style={styles.salaryPill}>
-              {item.salary}
+              {item.salary_amount.toLocaleString("tr-TR")}₺
             </div>
           </div>
         ))
@@ -220,17 +274,16 @@ const styles: Record<string, React.CSSProperties> = {
     gap: "20px"
   },
 
-    navBtn: {
-      background: "white",
-      border: "none",
-      color: "#5c0017",
-      fontWeight: 800,
-      cursor: "pointer",
-      fontSize: "15px",
-      padding: "10px 16px",
-      borderRadius: "12px"
-    },
-
+  navBtn: {
+    background: "white",
+    border: "none",
+    color: "#5c0017",
+    fontWeight: 800,
+    cursor: "pointer",
+    fontSize: "15px",
+    padding: "10px 16px",
+    borderRadius: "12px"
+  },
 
   main: {
     width: "100%",
@@ -346,11 +399,6 @@ const styles: Record<string, React.CSSProperties> = {
     color: "#8b3a5a"
   },
 
-  benefits: {
-    marginTop: "8px",
-    color: "#5c0017"
-  },
-
   salaryPill: {
     background: "#1a1a5e",
     color: "white",
@@ -381,16 +429,6 @@ const styles: Record<string, React.CSSProperties> = {
     marginTop: "20px"
   },
 
-  textarea: {
-    width: "100%",
-    minHeight: "120px",
-    marginTop: "14px",
-    padding: "14px",
-    borderRadius: "14px",
-    border: "2px solid #ff8db2",
-    boxSizing: "border-box"
-  },
-
   primaryBtnFull: {
     width: "100%",
     marginTop: "18px",
@@ -402,6 +440,12 @@ const styles: Record<string, React.CSSProperties> = {
     fontWeight: 800,
     cursor: "pointer",
     fontSize: "15px"
+  },
+
+  successText: {
+    marginTop: "18px",
+    color: "green",
+    fontWeight: 700
   }
 };
 
