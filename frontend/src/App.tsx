@@ -22,6 +22,12 @@ type Page = "home" | "share" | "search";
 
 const API_URL = "https://kuliss-p7lr.onrender.com";
 
+const normalizeText = (text: string) =>
+  text
+    .toLocaleLowerCase("tr-TR")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+
 function App() {
   const [page, setPage] = useState<Page>("home");
   const [reports, setReports] = useState<SalaryReport[]>([]);
@@ -48,6 +54,7 @@ function App() {
       const response = await axios.get<SalaryReport[]>(
         `${API_URL}/salary-reports`
       );
+
       setReports(response.data);
     } catch (error) {
       console.error(error);
@@ -99,32 +106,44 @@ function App() {
       setComment("");
 
       await fetchReports();
+
       setPage("home");
     } catch (error) {
       console.error(error);
-      setMessage("Bir hata oluştu. Backend veya CORS ayarını kontrol et.");
+      setMessage("Bir hata oluştu.");
     } finally {
       setLoading(false);
     }
   };
 
   const filteredReports = reports.filter((item) =>
-    item.company_name.toLowerCase().includes(search.toLowerCase())
+    normalizeText(item.company_name).includes(
+      normalizeText(search)
+    )
   );
 
   return (
     <div style={styles.page}>
       <nav style={styles.nav}>
-        <button style={styles.logo} onClick={() => setPage("home")}>
+        <button
+          style={styles.logo}
+          onClick={() => setPage("home")}
+        >
           kuliss
         </button>
 
         <div style={styles.navLinks}>
-          <button style={styles.navBtn} onClick={() => setPage("search")}>
+          <button
+            style={styles.navBtn}
+            onClick={() => setPage("search")}
+          >
             şirket ara
           </button>
 
-          <button style={styles.navBtn} onClick={() => setPage("share")}>
+          <button
+            style={styles.navBtn}
+            onClick={() => setPage("share")}
+          >
             maaş paylaş
           </button>
         </div>
@@ -134,7 +153,9 @@ function App() {
         {page === "home" && (
           <>
             <section style={styles.hero}>
-              <div style={styles.badge}>✦ tamamen anonim</div>
+              <div style={styles.badge}>
+                ✦ tamamen anonim
+              </div>
 
               <h1 style={styles.title}>
                 vitrini değil,
@@ -143,8 +164,8 @@ function App() {
               </h1>
 
               <p style={styles.subtitle}>
-                Türkiye'deki şirketlerin gerçek maaşları, çalışma kültürü ve
-                perde arkası.
+                Türkiye'deki şirketlerin gerçek maaşları,
+                çalışma kültürü ve perde arkası.
               </p>
 
               <div style={styles.buttonRow}>
@@ -172,7 +193,9 @@ function App() {
           <section style={styles.card}>
             <h2>şirket ara</h2>
 
-            <p style={styles.muted}>Bir yere girmeden önce gerçeği öğren.</p>
+            <p style={styles.muted}>
+              Bir yere girmeden önce gerçeği öğren.
+            </p>
 
             <input
               style={styles.input}
@@ -189,55 +212,71 @@ function App() {
           <section style={styles.card}>
             <h2>maaş bilgisi ekle</h2>
 
-            <p style={styles.muted}>Tüm veriler anonimdir.</p>
+            <p style={styles.muted}>
+              Tüm veriler anonimdir.
+            </p>
 
             <div style={styles.formGrid}>
               <input
                 style={styles.input}
                 placeholder="Şirket adı *"
                 value={companyName}
-                onChange={(e) => setCompanyName(e.target.value)}
+                onChange={(e) =>
+                  setCompanyName(e.target.value)
+                }
               />
 
               <input
                 style={styles.input}
                 placeholder="Sektör *"
                 value={sector}
-                onChange={(e) => setSector(e.target.value)}
+                onChange={(e) =>
+                  setSector(e.target.value)
+                }
               />
 
               <input
                 style={styles.input}
                 placeholder="Şehir *"
                 value={city}
-                onChange={(e) => setCity(e.target.value)}
+                onChange={(e) =>
+                  setCity(e.target.value)
+                }
               />
 
               <input
                 style={styles.input}
                 placeholder="Pozisyon *"
                 value={position}
-                onChange={(e) => setPosition(e.target.value)}
+                onChange={(e) =>
+                  setPosition(e.target.value)
+                }
               />
 
               <input
                 style={styles.input}
                 placeholder="Deneyim yılı"
                 value={experienceYears}
-                onChange={(e) => setExperienceYears(e.target.value)}
+                onChange={(e) =>
+                  setExperienceYears(e.target.value)
+                }
               />
 
               <input
                 style={styles.input}
                 placeholder="Maaş miktarı *"
                 value={salaryAmount}
-                onChange={(e) => setSalaryAmount(e.target.value)}
+                onChange={(e) =>
+                  setSalaryAmount(e.target.value)
+                }
               />
 
               <select
                 style={styles.input}
                 value={workType}
-                onChange={(e) => setWorkType(e.target.value)}
+                onChange={(e) =>
+                  setWorkType(e.target.value)
+                }
               >
                 <option value="Ofis">Ofis</option>
                 <option value="Hibrit">Hibrit</option>
@@ -247,7 +286,9 @@ function App() {
               <select
                 style={styles.input}
                 value={salaryPeriod}
-                onChange={(e) => setSalaryPeriod(e.target.value)}
+                onChange={(e) =>
+                  setSalaryPeriod(e.target.value)
+                }
               >
                 <option value="Aylık">Aylık</option>
                 <option value="Yıllık">Yıllık</option>
@@ -257,7 +298,9 @@ function App() {
               <select
                 style={styles.input}
                 value={salaryType}
-                onChange={(e) => setSalaryType(e.target.value)}
+                onChange={(e) =>
+                  setSalaryType(e.target.value)
+                }
               >
                 <option value="Net">Net</option>
                 <option value="Brüt">Brüt</option>
@@ -266,7 +309,9 @@ function App() {
               <select
                 style={styles.input}
                 value={currency}
-                onChange={(e) => setCurrency(e.target.value)}
+                onChange={(e) =>
+                  setCurrency(e.target.value)
+                }
               >
                 <option value="TRY">TRY</option>
                 <option value="USD">USD</option>
@@ -278,14 +323,18 @@ function App() {
               style={styles.textarea}
               placeholder="Yan haklar"
               value={benefits}
-              onChange={(e) => setBenefits(e.target.value)}
+              onChange={(e) =>
+                setBenefits(e.target.value)
+              }
             />
 
             <textarea
               style={styles.textarea}
               placeholder="Yorum"
               value={comment}
-              onChange={(e) => setComment(e.target.value)}
+              onChange={(e) =>
+                setComment(e.target.value)
+              }
             />
 
             <button
@@ -293,10 +342,16 @@ function App() {
               onClick={submitSalary}
               disabled={loading}
             >
-              {loading ? "gönderiliyor..." : "anonim olarak gönder"}
+              {loading
+                ? "gönderiliyor..."
+                : "anonim olarak gönder"}
             </button>
 
-            {message && <p style={styles.successText}>{message}</p>}
+            {message && (
+              <p style={styles.successText}>
+                {message}
+              </p>
+            )}
           </section>
         )}
       </main>
@@ -304,40 +359,63 @@ function App() {
   );
 }
 
-function SalaryList({ reports }: { reports: SalaryReport[] }) {
+function SalaryList({
+  reports
+}: {
+  reports: SalaryReport[];
+}) {
   return (
     <section style={styles.salaryBox}>
       <h2>son paylaşılan maaşlar</h2>
 
       {reports.length === 0 ? (
-        <p style={styles.emptyText}>Henüz maaş paylaşımı yok.</p>
+        <p style={styles.emptyText}>
+          Henüz maaş paylaşımı yok.
+        </p>
       ) : (
         reports.map((item) => (
-          <div key={item.id} style={styles.salaryCard}>
+          <div
+            key={item.id}
+            style={styles.salaryCard}
+          >
             <div>
-              <h3 style={styles.position}>{item.position}</h3>
+              <h3 style={styles.position}>
+                {item.position}
+              </h3>
 
-              <p style={styles.company}>{item.company_name}</p>
+              <p style={styles.company}>
+                {item.company_name}
+              </p>
 
               <p style={styles.muted}>
-                {item.city} • {item.work_type} • {item.experience_years} yıl
+                {item.city} • {item.work_type} •{" "}
+                {item.experience_years} yıl
               </p>
 
               <p style={styles.benefits}>
-                {item.salary_period} / {item.salary_type} / {item.currency}
+                {item.salary_period} /{" "}
+                {item.salary_type} /{" "}
+                {item.currency}
               </p>
 
               {item.benefits && (
-                <p style={styles.benefits}>Yan haklar: {item.benefits}</p>
+                <p style={styles.benefits}>
+                  Yan haklar: {item.benefits}
+                </p>
               )}
 
               {item.comment && (
-                <p style={styles.comment}>“{item.comment}”</p>
+                <p style={styles.comment}>
+                  “{item.comment}”
+                </p>
               )}
             </div>
 
             <div style={styles.salaryPill}>
-              {item.salary_amount.toLocaleString("tr-TR")} {item.currency}
+              {item.salary_amount.toLocaleString(
+                "tr-TR"
+              )}{" "}
+              {item.currency}
             </div>
           </div>
         ))
