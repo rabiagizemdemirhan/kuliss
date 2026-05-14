@@ -1,161 +1,242 @@
-import { useState } from "react";
-import axios from "axios";
+import "./index.css";
 
 function App() {
-  const [companyName, setCompanyName] = useState("");
-  const [position, setPosition] = useState("");
-  const [salary, setSalary] = useState("");
-  const [city, setCity] = useState("");
-  const [message, setMessage] = useState("");
-
-  const submitSalary = async () => {
-    try {
-      await axios.post("http://127.0.0.1:8000/salary-reports", {
-        company_name: companyName,
-        sector: "Teknoloji",
-        city: city,
-        position: position,
-        experience_years: 1,
-        work_type: "Hibrit",
-        salary_amount: Number(salary),
-        salary_period: "Aylık",
-        salary_type: "Net",
-        currency: "TRY",
-        benefits: "Yemek kartı",
-        comment: "Frontend test verisi"
-      });
-
-      setMessage("Maaş başarıyla paylaşıldı.");
-
-      setCompanyName("");
-      setPosition("");
-      setSalary("");
-      setCity("");
-    } catch (error) {
-      console.error(error);
-      setMessage("Bir hata oluştu.");
+  const companies = [
+    {
+      company: "Trendyol",
+      position: "Senior Backend Developer",
+      salary: "95.000₺",
+      meta: "İstanbul • Hibrit"
+    },
+    {
+      company: "Getir",
+      position: "Data Analyst",
+      salary: "72.000₺",
+      meta: "Remote"
+    },
+    {
+      company: "Hepsiburada",
+      position: "Product Designer",
+      salary: "68.000₺",
+      meta: "İstanbul • Ofis"
     }
-  };
+  ];
 
   return (
     <div
       style={{
-        background: "#0f0f0f",
         minHeight: "100vh",
-        color: "white",
-        padding: "40px",
-        fontFamily: "Inter, sans-serif"
+        background: "#fce4ec",
+        color: "#2c0a1e",
+        fontFamily: "DM Sans, sans-serif"
       }}
     >
-      <div
+      <nav
         style={{
-          maxWidth: "700px",
-          margin: "auto",
-          background: "#1a1a1a",
-          padding: "40px",
-          borderRadius: "24px",
-          border: "1px solid #2c2c2c"
+          padding: "22px 40px",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          background: "#e8112d",
+          borderBottom: "3px solid #6b0f2a"
         }}
       >
-        <h1
+        <div
           style={{
-            fontSize: "42px",
-            marginBottom: "6px"
+            fontSize: "28px",
+            fontWeight: 700,
+            color: "white"
           }}
         >
-          Kuliss
-        </h1>
-
-        <p
-          style={{
-            color: "#999",
-            marginBottom: "30px"
-          }}
-        >
-          Vitrini değil, içini gösterir.
-        </p>
-
-        <input
-          placeholder="Şirket adı"
-          value={companyName}
-          onChange={(e) => setCompanyName(e.target.value)}
-          style={inputStyle}
-        />
-
-        <input
-          placeholder="Pozisyon"
-          value={position}
-          onChange={(e) => setPosition(e.target.value)}
-          style={inputStyle}
-        />
-
-        <input
-          placeholder="Şehir"
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
-          style={inputStyle}
-        />
-
-        <input
-          placeholder="Maaş"
-          value={salary}
-          onChange={(e) => setSalary(e.target.value)}
-          style={inputStyle}
-        />
-
-        <button
-          onClick={submitSalary}
-          style={buttonStyle}
-        >
-          Anonim Paylaş
-        </button>
-
-        {message && (
-          <p
-            style={{
-              marginTop: "20px",
-              color: "#8aff8a"
-            }}
-          >
-            {message}
-          </p>
-        )}
+          kuliss
+        </div>
 
         <div
           style={{
-            marginTop: "40px",
-            padding: "20px",
-            background: "#141414",
-            borderRadius: "16px"
+            display: "flex",
+            gap: "18px",
+            color: "white",
+            fontWeight: 600
           }}
         >
-          <h3>Örnek Şirketler</h3>
+          <span>şirket ara</span>
+          <span>maaş paylaş</span>
+        </div>
+      </nav>
+
+      <div
+        style={{
+          maxWidth: "1100px",
+          margin: "0 auto",
+          padding: "70px 24px"
+        }}
+      >
+        <div
+          style={{
+            textAlign: "center",
+            marginBottom: "70px"
+          }}
+        >
+          <div
+            style={{
+              display: "inline-block",
+              background: "#1a1a5e",
+              color: "white",
+              padding: "8px 16px",
+              borderRadius: "999px",
+              fontSize: "12px",
+              fontWeight: 700,
+              marginBottom: "22px"
+            }}
+          >
+            ✦ tamamen anonim
+          </div>
+
+          <h1
+            style={{
+              fontSize: "72px",
+              lineHeight: 1,
+              marginBottom: "20px",
+              color: "#fff",
+              textShadow: "4px 4px 0 #6b0f2a"
+            }}
+          >
+            vitrini değil,<br />
+            içini gösterir.
+          </h1>
+
+          <p
+            style={{
+              maxWidth: "620px",
+              margin: "0 auto",
+              color: "#fff",
+              fontSize: "18px",
+              lineHeight: 1.7
+            }}
+          >
+            Türkiye'deki şirketlerin gerçek maaşları,
+            çalışma kültürü ve perde arkası.
+          </p>
+
+          <div
+            style={{
+              marginTop: "34px",
+              display: "flex",
+              justifyContent: "center",
+              gap: "14px",
+              flexWrap: "wrap"
+            }}
+          >
+            <button style={primaryButton}>
+              maaş paylaş
+            </button>
+
+            <button style={secondaryButton}>
+              şirket ara
+            </button>
+          </div>
+        </div>
+
+        <div
+          style={{
+            background: "white",
+            borderRadius: "24px",
+            padding: "30px",
+            border: "2px solid #6b0f2a",
+            boxShadow: "8px 8px 0 #e8112d"
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: "26px"
+            }}
+          >
+            <h2
+              style={{
+                fontSize: "30px",
+                margin: 0
+              }}
+            >
+              son paylaşılan maaşlar
+            </h2>
+
+            <div
+              style={{
+                color: "#8b3a5a",
+                fontWeight: 600
+              }}
+            >
+              canlı veriler
+            </div>
+          </div>
 
           <div
             style={{
               display: "flex",
-              gap: "10px",
-              flexWrap: "wrap",
-              marginTop: "14px"
+              flexDirection: "column",
+              gap: "14px"
             }}
           >
-            {[
-              "Trendyol",
-              "Getir",
-              "Hepsiburada",
-              "Yemeksepeti",
-              "Inditex"
-            ].map((company) => (
+            {companies.map((item) => (
               <div
-                key={company}
+                key={item.company + item.position}
                 style={{
-                  background: "#252525",
-                  padding: "10px 14px",
-                  borderRadius: "12px",
-                  color: "#ddd"
+                  background: "#fff0f5",
+                  border: "2px solid #f48fb1",
+                  borderRadius: "18px",
+                  padding: "22px",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  flexWrap: "wrap",
+                  gap: "20px"
                 }}
               >
-                {company}
+                <div>
+                  <div
+                    style={{
+                      fontSize: "22px",
+                      fontWeight: 700,
+                      marginBottom: "6px"
+                    }}
+                  >
+                    {item.position}
+                  </div>
+
+                  <div
+                    style={{
+                      color: "#6b0f2a",
+                      fontWeight: 600,
+                      marginBottom: "6px"
+                    }}
+                  >
+                    {item.company}
+                  </div>
+
+                  <div
+                    style={{
+                      color: "#8b3a5a"
+                    }}
+                  >
+                    {item.meta}
+                  </div>
+                </div>
+
+                <div
+                  style={{
+                    background: "#1a1a5e",
+                    color: "white",
+                    padding: "12px 18px",
+                    borderRadius: "14px",
+                    fontWeight: 700,
+                    fontSize: "20px"
+                  }}
+                >
+                  {item.salary}
+                </div>
               </div>
             ))}
           </div>
@@ -165,27 +246,24 @@ function App() {
   );
 }
 
-const inputStyle: React.CSSProperties = {
-  width: "100%",
-  padding: "16px",
-  marginTop: "14px",
-  borderRadius: "12px",
-  border: "1px solid #2f2f2f",
-  background: "#242424",
+const primaryButton = {
+  background: "#1a1a5e",
   color: "white",
-  fontSize: "15px",
-  boxSizing: "border-box"
+  border: "none",
+  padding: "14px 26px",
+  borderRadius: "14px",
+  fontWeight: 700,
+  cursor: "pointer",
+  fontSize: "15px"
 };
 
-const buttonStyle: React.CSSProperties = {
-  width: "100%",
-  padding: "16px",
-  marginTop: "18px",
-  borderRadius: "12px",
-  border: "none",
+const secondaryButton = {
   background: "white",
-  color: "black",
-  fontWeight: "bold",
+  color: "#6b0f2a",
+  border: "none",
+  padding: "14px 26px",
+  borderRadius: "14px",
+  fontWeight: 700,
   cursor: "pointer",
   fontSize: "15px"
 };
