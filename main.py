@@ -1,3 +1,4 @@
+from fastapi.middleware.cors import CORSMiddleware
 import html
 from fastapi import FastAPI, Depends, Form
 from fastapi.responses import HTMLResponse
